@@ -2,7 +2,9 @@ var express = require('express');
 var router = express.Router();
 var crypto = require('crypto');
 var User = require('../models/user.js');
+var permission = require('./permission.js');
 
+router.get('/',permission.checkNotLogin);
 router.get('/',function(req,res){
 	res.render('register',{
 		title:'注册',
@@ -11,6 +13,7 @@ router.get('/',function(req,res){
 		error: req.flash('error').toString()
 	});
 });
+router.post('/',permission.checkNotLogin);
 router.post('/',function(req, res){
 	var name = req.body.name;
 	var password = req.body.password;
